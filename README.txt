@@ -1,1 +1,1 @@
-sub_main입니다. 파일 복구를 위해 생성하였습니다.
+API용 main branch입니다.
