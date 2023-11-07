@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+import os
+
 from django.shortcuts import render
 from .models import AREA_INFO
 from django.http import HttpResponse
@@ -12,6 +15,11 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+
+
+# read env
+load_dotenv(verbose=True)
+APIKEY = os.getenv('api-key')
 
 # Create your views here.
 def index(request):
@@ -31,12 +39,11 @@ def data_to_db(request):
         for i in range(1, 10+1):
             place_list.append(driver.find_element(By.XPATH, f'//*[@id="srcd_list"]/a[{i}]/div/h4').text)
 
-    apikey ='4b486663576c796837335278667276'
 
     datas = list()
     columns = ['AREA_CD', 'AREA_NM', 'AREA_CONGEST_LVL', 'SKY_STTS', 'TEMP', 'PM10', 'PM25']
     for place in place_list:
-        url1 = f'http://openapi.seoul.go.kr:8088/{apikey}/xml/citydata/1/1/{place}'
+        url1 = f'http://openapi.seoul.go.kr:8088/{APIKEY}/xml/citydata/1/1/{place}'
         
         res = requests.get(url1)
         root = ET.fromstring(res.text)
