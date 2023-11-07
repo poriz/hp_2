@@ -1,57 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>임시 페이지입니다.</title>
-
-    <style>
-        ul{
-            margin: 10px; 
-            padding: 10px;
-            font-family: sans-serif;
-            width: 200px;
-        }
-        li{
-            list-style:none; /* Disable the normal item numbering */
-            position:relative; /* Create a positioning context */
-            margin:0 0 16px 2em; /* Give each list item a left margin to make room for the numbers */
-            padding:6px 18px; /* Add some spacing around the content */
-            background:rgba(221, 122, 129, 0.1);
-        }
-
-        .crowded{
-            float:left;
-            width:200px; 
-            height:100px; 
-
-        }
-        .quiet{
-            display:inline-block;
-            width:200px; 
-            height:100px; 
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP2</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hot Place List</h1>
-    <ul class = 'crowded'>
-        <h2>crowded table</h2>
-        <li>test_msg</li>
-        <li>{{AREA_INFO.1}}</li>
-        <li>{{AREA_INFO.2}}</li>
-    </ul>
-
-
-    <ul class = 'quiet'>
-        <h2>quiet table</h2>
-        <li>{{AREA_INFO.0}}</li>
-        <li>{{AREA_INFO.1}}</li>
-        <li>{{AREA_INFO.2}}</li>
-    </ul>
-
-    
-
+    <h1 style="text-align: center;">Hot Place List</h1>
+    <div class="main-container">
+        <div class="section-container">
+            <h2>복작복작 와글와글</h2>
+            <div class="place-container">
+                <div class="photo">사진</div>
+                <div class="place-info">
+                    <div class="place-name">국립중앙박물관·용산가족공원</div>
+                    <div class="detail-container">
+                        <div style="flex:1">맑음</div>
+                        <div style="flex:1">16℃</div>
+                        <div class="fine-dust" style="flex:1">
+                            <p style="margin: 0px;">좋음</p>
+                            <p style="margin: 0px; font-size: 12px;">미세먼지</p>
+                        </div>
+                        <div class="ultrafine dustr" style="flex:1">
+                            <p style="margin: 0px;">좋음</p>
+                            <p style="margin: 0px; font-size: 12px;">초미세먼지</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-container">
+                <div class="photo">사진</div>
+                2순위
+            </div>
+            <div class="place-container">
+                <div class="photo">사진</div>
+                3순위
+            </div>
+        </div>
+        <div class="section-container">
+            <h2>한적~</h2>
+            <div class="place-container">
+                <div class="photo">사진</div>
+                1순위
+            </div>
+            <div class="place-container">
+                <div class="photo">사진</div>
+                2순위
+            </div>
+            <div class="place-container">
+                <div class="photo">사진</div>
+                3순위
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-
-<!--편의상 만들어둔 테스트 페이지입니다. 수정 필요>
