@@ -5,6 +5,7 @@ class AREA_INFO(models.Model):
     AREA_CD = models.CharField(max_length = 10, primary_key = True)
     AREA_NM = models.CharField(max_length = 255)
     AREA_CONGEST_LVL = models.CharField(max_length = 100)
+    SKY_STTS = models.CharField(max_length = 100, default='맑음') # 프론트 설계 화면에 '맑음', '흐림'등이 있어 새 필드를 추가했습니다.
     TEMP = models.FloatField()
     PM10 = models.FloatField()
     PM25 = models.FloatField()
@@ -30,3 +31,6 @@ class AREA_INFO(models.Model):
     def save(self, *args, **kwargs):
         self.CATEGORY = self.select_category()  # 카테고리를 설정
         super(AREA_INFO, self).save(*args, **kwargs)  # 부모 클래스의 save 메서드 호출
+    
+    def __str__(self):
+        return f'{self.AREA_NM}, {self.CATEGORY}, {self.AREA_CONGEST_LVL}, {self.SKY_STTS}, {self.TEMP}, {self.PM10}, {self.PM25}'
