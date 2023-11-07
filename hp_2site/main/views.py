@@ -10,6 +10,10 @@ from .models import *
 import requests
 import xml.etree.ElementTree as ET
 
+# schedule code
+from apscheduler.schedulers.background import BackgroundScheduler
+sched = BackgroundScheduler()
+
 import pandas as pd
 
 # read env
@@ -24,8 +28,12 @@ def index(request):
     return render(request,'main/index.html',context)
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
-def data_to_db(request):
-    data = pd.read_csv('./main/assets/place_name.csv',encoding='utf-8')
+@sched.scheduled_job('cron', minute ='*/5',name = 'schedulerName')
+def data_to_db():
+    print('cron start')
+    currentPath = os.getcwd()
+    # 이부분 DB에서 가져오는 방식도 좋습니다. pandas 에러로 파일 위치변경
+    data = pd.read_csv(f'{currentPath}\\main\\place_name.CSV',encoding='utf-8')
     place_list = data['AREA_NM'].to_list()
     
     datas = list()
@@ -33,7 +41,11 @@ def data_to_db(request):
     for place in place_list:
         url1 = f'http://openapi.seoul.go.kr:8088/{APIKEY}/xml/citydata/1/1/{place}'
         
-        res = requests.get(url1)
+        try:
+            res = requests.get(url1)
+        except:
+            return print('request_error')
+            
         root = ET.fromstring(res.text)
         
         c_dict = dict()
@@ -46,9 +58,12 @@ def data_to_db(request):
         
         datas.append(c_dict)
     
+    
     # 데이터베이스에 저장
     for data in datas:
         area_info = AREA_INFO(**data)
         area_info.save()
 
-    return render(request,'main/news.html', {'datas':datas})
+    # return render(request,'main/news.html', {'datas':datas})
+    print('cron_fin')
+sched.start()
