@@ -5,6 +5,8 @@ from django.shortcuts import render
 from .models import AREA_INFO
 from django.http import HttpResponse
 from .models import *
+from django.shortcuts import get_object_or_404,redirect
+from django.urls import reverse
 
 # Open API와 크롤링을 위한 라이브러리
 import requests
@@ -64,3 +66,18 @@ def data_to_db(request):
         area_info.save()
 
     return render(request,'main/news.html', {'datas':datas})
+
+def comment_write(request):
+    errors = []
+    if request.method == 'POST':
+        name = request.POST.get('NICKNAME','')
+        content = request.POST.get('COMMENT_TEXT','')
+
+        if not name :
+            name = '익명'
+        if not content :
+            errors.append("댓글을 입력하세요.")
+        if not errors :
+            comment = COMMENT.objects.create(NICKNAME = name, COMMENT_TEXT = content)
+            return redirect('index')
+    return render(request,'index.html',{'name':name})
