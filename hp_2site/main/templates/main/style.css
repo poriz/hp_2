@@ -3,9 +3,7 @@ h1 {
 }
 
 .main-container {
-    width: 1000px;
-    /* height: 200px; */
-    margin-left: 10%;
+    width: 100%;
     margin-top: 30px;
     
     display: flex;
@@ -27,6 +25,7 @@ h1 {
     margin: auto;
     width: 400px;
 
+
     border: solid black 1px;
     border-radius: 5px;
     margin-top: 10px;
@@ -39,8 +38,8 @@ h1 {
 
 .photo {
     background-color: gray;
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
 
     border: solid black 1px;
     border-radius: 50%;
@@ -73,4 +72,65 @@ h1 {
     flex-direction: row;
     justify-content : center;
     align-items : center;
+}
+
+.comment-container {
+    width: 600px;
+    margin-left: 200px;
+    margin-top: 25px;
+
+    display : flex;
+    flex-direction: column;
+    justify-content : center;
+    align-items : center;
+
+    border: solid gray 1px;
+    border-radius: 5px;
+}
+
+form {
+    flex-direction: column;
+    justify-content : center;
+    align-items : center;
+    margin-top: 12px;
+}
+
+#nickname {
+    width: 100px;
+}
+
+#comment {
+    width: 350px;
+}
+
+.comment-list{
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    margin-top: 10px;
+
+    height: 200px;
+    overflow:auto;
+}
+
+label {
+    display:inline-block; 
+    width: 60px; 
+    text-align: right;
+}
+
+.comment-box {
+    width: 400px;
+    padding: 10px 0px 10px 0px;
+}
+
+.comment-content{
+    margin: 0px;
+}
+
+.comment-nick{
+    margin: 0px;
+    text-align: right;
+    font-size: 12px;
+    color: gray;
 }
