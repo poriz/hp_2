@@ -16,7 +16,8 @@ def index(request):
     msg = '테스트 메세지'
     return render(request,'main/index.html',{'message':msg})
 
-def news(request):
+# API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
+def data_to_db(request):
     place_list = list()
     with webdriver.Chrome(service=Service(ChromeDriverManager().install())) as driver:
         driver.get("https://data.seoul.go.kr/SeoulRtd/list")
@@ -28,33 +29,27 @@ def news(request):
 
     apikey ='4b486663576c796837335278667276'
 
-    p_dict = dict()
+    datas = list()
+    columns = ['AREA_CD', 'AREA_NM', 'AREA_CONGEST_LVL', 'SKY_STTS', 'TEMP', 'PM10', 'PM25']
     for place in place_list:
         url1 = f'http://openapi.seoul.go.kr:8088/{apikey}/xml/citydata/1/1/{place}'
         
         res = requests.get(url1)
         root = ET.fromstring(res.text)
         
-        columns = ['AREA_NM', 'AREA_CD', 'AREA_CONGEST_LVL', 'AREA_PPLTN_MIN', 'AREA_PPLTN_MAX', 'TEMP', 'SKY_STTS', 'PM10', 'PM25']
-        
         c_dict = dict()
-        
         for cl in columns:
-            c_dict[cl] = root.find(f'.//{cl}').text
+            tmp = root.find(f'.//{cl}').text
+            if tmp:
+                c_dict[cl] = root.find(f'.//{cl}').text
+            else:
+                c_dict[cl] = ""
         
-        p_dict[place] = c_dict
-        
-    return render(request,'main/news.html', {'p_dict':p_dict})
-
-def data_to_db(request):
-    # API에서 데이터 가져오기
-    # data 에 API에서 딕셔너리화한 데이터를 반환
-    # API 가져오는 함수 붙여넣으면 될 것 같습니다!
-    datas = {}
-    # git연습
+        datas.append(c_dict)
+    
     # 데이터베이스에 저장
     for data in datas:
         area_info = AREA_INFO(**data)
         area_info.save()
 
-    return HttpResponse("Data saved")
+    return render(request,'main/news.html', {'datas':datas})
