@@ -2,10 +2,10 @@ from django.db import models
 
 # Create your models here.
 class AREA_INFO(models.Model):
-    AREA_CD = models.CharField(max_length = 10, primary_key = True)
+    AREA_CD = models.CharField(max_length = 10) # 프라이머리키 자동생성
     AREA_NM = models.CharField(max_length = 255)
     AREA_CONGEST_LVL = models.CharField(max_length = 100)
-    SKY_STTS = models.CharField(max_length = 100, default='맑음') # 프론트 설계 화면에 '맑음', '흐림'등이 있어 새 필드를 추가했습니다.
+    SKY_STTS = models.CharField(max_length = 100, default='정보없음') # 프론트 설계 화면에 '맑음', '흐림'등이 있어 새 필드를 추가했습니다.
     TEMP = models.FloatField()
     PM10 = models.FloatField()
     PM25 = models.FloatField()
