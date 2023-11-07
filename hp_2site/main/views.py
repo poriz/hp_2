@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import AREA_INFO
+from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
