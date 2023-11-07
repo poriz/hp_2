@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from .models import AREA_INFO
 from django.http import HttpResponse
+from .models import *
 
 # Create your views here.
 def index(request):
-    msg = '테스트 메세지'
-    return render(request,'main/index.html',{'message':msg})
+    # random을 추가해서 변경 가능합니다.
+    latest_AREA_INFO_list = AREA_INFO.objects.order_by('AREA_CONGEST_LVL')[:5]
+    context = {'AREA_INFO' : latest_AREA_INFO_list}
+    return render(request,'main/index.html',context)
 
 def data_to_db(request):
     # API에서 데이터 가져오기
