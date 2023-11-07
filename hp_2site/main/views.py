@@ -12,12 +12,11 @@ from django.urls import reverse
 import requests
 import xml.etree.ElementTree as ET
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+# schedule code
+from apscheduler.schedulers.background import BackgroundScheduler
+sched = BackgroundScheduler()
 
+import pandas as pd
 
 # read env
 load_dotenv(verbose=True)
@@ -31,23 +30,24 @@ def index(request):
     return render(request,'main/index.html',context)
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
-def data_to_db(request):
-    place_list = list()
-    with webdriver.Chrome(service=Service(ChromeDriverManager().install())) as driver:
-        driver.get("https://data.seoul.go.kr/SeoulRtd/list")
-        
-        driver.implicitly_wait(3)
-        
-        for i in range(1, 10+1):
-            place_list.append(driver.find_element(By.XPATH, f'//*[@id="srcd_list"]/a[{i}]/div/h4').text)
-
-
+@sched.scheduled_job('cron', minute ='*/5',name = 'schedulerName')
+def data_to_db():
+    print('cron start')
+    currentPath = os.getcwd()
+    # 이부분 DB에서 가져오는 방식도 좋습니다. pandas 에러로 파일 위치변경
+    data = pd.read_csv(f'{currentPath}\\main\\place_name.CSV',encoding='utf-8')
+    place_list = data['AREA_NM'].to_list()
+    
     datas = list()
     columns = ['AREA_CD', 'AREA_NM', 'AREA_CONGEST_LVL', 'SKY_STTS', 'TEMP', 'PM10', 'PM25']
     for place in place_list:
         url1 = f'http://openapi.seoul.go.kr:8088/{APIKEY}/xml/citydata/1/1/{place}'
         
-        res = requests.get(url1)
+        try:
+            res = requests.get(url1)
+        except:
+            return print('request_error')
+            
         root = ET.fromstring(res.text)
         
         c_dict = dict()
@@ -60,12 +60,15 @@ def data_to_db(request):
         
         datas.append(c_dict)
     
+    
     # 데이터베이스에 저장
     for data in datas:
         area_info = AREA_INFO(**data)
         area_info.save()
+    # return render(request,'main/news.html', {'datas':datas})
+    print('cron_fin')
+sched.start()
 
-    return render(request,'main/news.html', {'datas':datas})
 
 def comment_write(request):
     errors = []
@@ -81,3 +84,4 @@ def comment_write(request):
             comment = COMMENT.objects.create(NICKNAME = name, COMMENT_TEXT = content)
             return redirect('index')
     return render(request,'index.html',{'name':name})
+
