@@ -10,6 +10,11 @@ class AREA_INFO(models.Model):
     PM10 = models.CharField(max_length = 50)
     PM25 = models.CharField(max_length = 50)
     CATEGORY = models.CharField(max_length = 50, default='분류오류')  # 카테고리 필드 추가
+    IMAGE = models.CharField(max_length=100)
+    
+    def set_image(self):
+        image_path = f'Image/{self.AREA_NM}.jpg'
+        return image_path
 
     def select_category(self):
         if int(self.AREA_CD[-3:]) >= 1 and int(self.AREA_CD[-3:]) <= 7:
@@ -31,6 +36,7 @@ class AREA_INFO(models.Model):
             return '분류오류'
     def save(self, *args, **kwargs):
         self.CATEGORY = self.select_category()  # 카테고리를 설정
+        self.IMAGE = self.set_image()
         super(AREA_INFO, self).save(*args, **kwargs)  # 부모 클래스의 save 메서드 호출
     
     def __str__(self):
