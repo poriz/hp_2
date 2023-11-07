@@ -11,7 +11,7 @@ def data_to_db(request):
     # data 에 API에서 딕셔너리화한 데이터를 반환
     # API 가져오는 함수 붙여넣으면 될 것 같습니다!
     datas = {}
-
+    # git연습
     # 데이터베이스에 저장
     for data in datas:
         area_info = AREA_INFO(**data)
