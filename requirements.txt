@@ -1,3 +1,4 @@
+APScheduler==3.10.4
 asgiref==3.7.2
 attrs==23.1.0
 beautifulsoup4==4.12.2
@@ -8,6 +9,7 @@ charset-normalizer==3.3.2
 contourpy==1.2.0
 cycler==0.12.1
 Django==4.2.7
+django-apscheduler==0.6.2
 django-crontab==0.7.1
 djangorestframework==3.14.0
 fonttools==4.44.0
@@ -37,6 +39,7 @@ sqlparse==0.4.4
 trio==0.23.1
 trio-websocket==0.11.1
 tzdata==2023.3
+tzlocal==5.2
 urllib3==2.0.7
 webdriver-manager==4.0.1
 wsproto==1.2.0
