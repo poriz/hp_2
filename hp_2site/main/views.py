@@ -25,7 +25,7 @@ def index(request):
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
 def data_to_db(request):
-    data = pd.read_csv('./hp_2site/main/assets/place_name.csv',encoding='utf-8')
+    data = pd.read_csv('./main/assets/place_name.csv',encoding='utf-8')
     place_list = data['AREA_NM'].to_list()
     
     datas = list()
