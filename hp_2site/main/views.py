@@ -10,12 +10,13 @@ from .models import *
 import requests
 import xml.etree.ElementTree as ET
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from webdriver_manager.chrome import ChromeDriverManager
 
+import pandas as pd
 
 # read env
 load_dotenv(verbose=True)
@@ -30,16 +31,9 @@ def index(request):
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
 def data_to_db(request):
-    place_list = list()
-    with webdriver.Chrome(service=Service(ChromeDriverManager().install())) as driver:
-        driver.get("https://data.seoul.go.kr/SeoulRtd/list")
-        
-        driver.implicitly_wait(3)
-        
-        for i in range(1, 10+1):
-            place_list.append(driver.find_element(By.XPATH, f'//*[@id="srcd_list"]/a[{i}]/div/h4').text)
-
-
+    data = pd.read_csv('./hp_2site/main/assets/place_name.csv',encoding='utf-8')
+    place_list = data['AREA_NM'].to_list()
+    
     datas = list()
     columns = ['AREA_CD', 'AREA_NM', 'AREA_CONGEST_LVL', 'SKY_STTS', 'TEMP', 'PM10', 'PM25']
     for place in place_list:
