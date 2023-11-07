@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div style="width: 1000px; margin: auto;">
     <h1 style="text-align: center;">Hot Place List</h1>
     <div class="main-container">
         <div class="section-container">
@@ -54,5 +55,35 @@
             </div>
         </div>
     </div>
+    <div class="comment-container">
+        <form style="display: flex; flex-direction: row; width: 600px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div>
+                    <label for="nickname">닉네임 :</label>
+                    <input id="nickname" name="nickname" placeholder="10자 제한" maxlength='10'/>
+                </div>
+                <div>
+                    <label for="comment">댓글 :</label>
+                    <input id="comment" name="comment" type="text" placeholder="150자 제한" maxlength='150' required>
+                </div>
+            </div>
+            <button style="margin-left: 10px;">제출</button>
+        </form>
+        <div  class="comment-list">
+            <div class="comment-box">
+                <p class="comment-content">짧게 뾰롱</p>
+                <p class="comment-nick">익명이는귀여워</p>
+            </div>
+            <div class="comment-box">
+                <p class="comment-content">이건 그냥 3개 맞춰보려고 넣은 것. </p>
+                <p class="comment-nick">트리플 코멘트</p>
+            </div>
+            <div class="comment-box">
+                <p class="comment-content">길게 쓴 글을 체크해보고 싶어서 쓴 긴 글입니다. 정말 아무 내용이 없어요. 왜냐하면 아무생각이 없기 때문입니다.</p>
+                <p class="comment-nick">노띵킹 부엉이</p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
