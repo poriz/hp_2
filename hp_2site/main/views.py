@@ -2,11 +2,11 @@ from dotenv import load_dotenv
 import os
 
 from django.shortcuts import render
-from .models import AREA_INFO
-from django.http import HttpResponse
-from .models import *
 from django.shortcuts import get_object_or_404,redirect
+from django.http import HttpResponse
 from django.urls import reverse
+from django.db.models import Q
+from .models import *
 
 # Open API와 크롤링을 위한 라이브러리
 import requests
@@ -25,9 +25,11 @@ APIKEY = os.getenv('api-key')
 # Create your views here.
 def index(request):
     # random을 추가해서 변경 가능합니다.
-    latest_AREA_INFO_list = AREA_INFO.objects.order_by('AREA_CONGEST_LVL')[:5]
-    latest_COMMENT_list = COMMENT.objects.order_by('-PUB_DATE')
-    context = {'AREA_INFO' : latest_AREA_INFO_list, 'COMMENT' : latest_COMMENT_list}
+    crowded = AREA_INFO.objects.filter(Q(AREA_CONGEST_LVL='붐빔') | Q(AREA_CONGEST_LVL='약간 붐빔')).order_by('AREA_CONGEST_LVL')[:3]
+    uncrowded = AREA_INFO.objects.filter(Q(AREA_CONGEST_LVL='보통') | Q(AREA_CONGEST_LVL='여유')).order_by('AREA_CONGEST_LVL')[:3]
+    latest_comment = COMMENT.objects.order_by('-PUB_DATE')
+    
+    context = {'CROWDED' : crowded, 'UNCROWDED' : uncrowded, 'COMMENT' : latest_comment}
     return render(request,'main/index.html',context)
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
