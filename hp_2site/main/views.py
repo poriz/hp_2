@@ -73,8 +73,8 @@ sched.start()
 def comment_write(request):
     errors = []
     if request.method == 'POST':
-        name = request.POST.get('NICKNAME','')
-        content = request.POST.get('COMMENT_TEXT','')
+        name = request.POST.get('nickname','')
+        content = request.POST.get('comment','')
 
         if not name :
             name = '익명'
@@ -82,6 +82,6 @@ def comment_write(request):
             errors.append("댓글을 입력하세요.")
         if not errors :
             comment = COMMENT.objects.create(NICKNAME = name, COMMENT_TEXT = content)
-            return redirect('index')
+            return redirect('main:index')
     return render(request,'index.html',{'name':name})
 

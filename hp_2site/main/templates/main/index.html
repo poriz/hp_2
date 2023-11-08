@@ -56,7 +56,8 @@
         </div>
     </div>
     <div class="comment-container">
-        <form style="display: flex; flex-direction: row; width: 600px;">
+        <form action={% url "main:comment" %} method='post' style="display: flex; flex-direction: row; width: 600px;">
+            {% csrf_token %}
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <div>
                     <label for="nickname">닉네임 :</label>
