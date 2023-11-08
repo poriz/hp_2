@@ -26,7 +26,8 @@ APIKEY = os.getenv('api-key')
 def index(request):
     # random을 추가해서 변경 가능합니다.
     latest_AREA_INFO_list = AREA_INFO.objects.order_by('AREA_CONGEST_LVL')[:5]
-    context = {'AREA_INFO' : latest_AREA_INFO_list}
+    latest_COMMENT_list = COMMENT.objects.order_by('-PUB_DATE')
+    context = {'AREA_INFO' : latest_AREA_INFO_list, 'COMMENT' : latest_COMMENT_list}
     return render(request,'main/index.html',context)
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
