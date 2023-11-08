@@ -15,7 +15,10 @@
             <h2>복작복작 와글와글</h2>
             {% for area in CROWDED %}
                 <div class="place-container">
-                    <div class="photo">사진</div>
+                    {% comment %} <div class="photo">사진</div> {% endcomment %}
+                    <div class="photo">
+                        <img class='photo' src="{% static 'Image/'|add:area.AREA_NM|add:'.jpg' %}" alt="{{ area.AREA_NM }}">
+                    </div>
                     <div class="place-info">
                         <div class="place-name">{{ area.AREA_NM }}</div>
                         <div class="detail-container">
@@ -38,7 +41,7 @@
             <h2>한적~</h2>
             {% for area in UNCROWDED %}
                 <div class="place-container">
-                    <div class="photo">사진</div>
+                    <img class='photo' src="{% static 'Image/'|add:area.AREA_NM|add:'.jpg' %}" alt="{{ area.AREA_NM }}">
                     <div class="place-info">
                         <div class="place-name">{{ area.AREA_NM }}</div>
                         <div class="detail-container">
