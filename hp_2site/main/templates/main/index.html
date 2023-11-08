@@ -71,17 +71,12 @@
             <button style="margin-left: 10px;">제출</button>
         </form>
         <div  class="comment-list">
-            <div class="comment-box">
-                <p class="comment-content">짧게 뾰롱</p>
-                <p class="comment-nick">익명이는귀여워</p>
-            </div>
-            <div class="comment-box">
-                <p class="comment-content">이건 그냥 3개 맞춰보려고 넣은 것. </p>
-                <p class="comment-nick">트리플 코멘트</p>
-            </div>
-            <div class="comment-box">
-                <p class="comment-content">길게 쓴 글을 체크해보고 싶어서 쓴 긴 글입니다. 정말 아무 내용이 없어요. 왜냐하면 아무생각이 없기 때문입니다.</p>
-                <p class="comment-nick">노띵킹 부엉이</p>
+            {% for comment in COMMENT %}
+                <div class="comment-box">
+                    <p class="comment-content">{{ comment.NICKNAME }}</p>
+                    <p class="comment-nick">{{ comment.COMMENT_TEXT }}</p>
+                </div>
+            {% endfor %}
             </div>
         </div>
     </div>
