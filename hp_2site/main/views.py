@@ -25,9 +25,9 @@ APIKEY = os.getenv('api-key')
 # Create your views here.
 def index(request):
     # random을 추가해서 변경 가능합니다.
-    crowded = AREA_INFO.objects.filter(Q(AREA_CONGEST_LVL='붐빔') | Q(AREA_CONGEST_LVL='약간 붐빔')).order_by('AREA_CONGEST_LVL')[:3]
-    uncrowded = AREA_INFO.objects.filter(Q(AREA_CONGEST_LVL='보통') | Q(AREA_CONGEST_LVL='여유')).order_by('AREA_CONGEST_LVL')[:3]
-    latest_comment = COMMENT.objects.order_by('-PUB_DATE')
+    crowded = AREA_INFO.objects.filter(AREA_CONGEST_LVL__in=['붐빔', '약간 붐빔']).order_by('AREA_CONGEST_LVL')[:3]
+    uncrowded = AREA_INFO.objects.filter(AREA_CONGEST_LVL__in=['보통', '여유']).order_by('AREA_CONGEST_LVL')[:3]
+    latest_comment = COMMENT.objects.order_by('-PUB_DATE')[:3]
     
     context = {'CROWDED' : crowded, 'UNCROWDED' : uncrowded, 'COMMENT' : latest_comment}
     return render(request,'main/index.html',context)

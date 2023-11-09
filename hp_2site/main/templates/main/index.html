@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="comment-container">
-        <form action={% url "main:comment" %} method='post' style="display: flex; flex-direction: row; width: 600px;">
+        <form action="{% url 'main:comment' %}" method='post' style="display: flex; flex-direction: row; width: 600px;">
             {% csrf_token %}
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <div>
@@ -79,8 +79,8 @@
         <div  class="comment-list">
             {% for comment in COMMENT %}
                 <div class="comment-box">
-                    <p class="comment-content">{{ comment.NICKNAME }}</p>
-                    <p class="comment-nick">{{ comment.COMMENT_TEXT }}</p>
+                    <p class="comment-content">{{ comment.COMMENT_TEXT }}</p>
+                    <p class="comment-nick">{{ comment.NICKNAME }}</p>
                 </div>
             {% endfor %}
             </div>
