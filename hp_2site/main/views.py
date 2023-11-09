@@ -34,9 +34,9 @@ def index(request):
     return render(request,'main/index.html',context)
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
-@sched.scheduled_job('cron', minute ='*/5',name = 'schedulerName')
+@sched.scheduled_job('cron', second ='*/10',name = 'schedulerName')
 def data_to_db():
-    current_time = timezone.now()
+    current_time = timezone.now() # 타임 스탬프
     print(f'cron start : {current_time}')
     currentPath = os.getcwd()
     # 이부분 DB에서 가져오는 방식도 좋습니다. pandas 에러로 파일 위치변경
@@ -60,10 +60,9 @@ def data_to_db():
             if cl == 'TIMESTAMP':
                 c_dict[cl] = current_time
             else:
-                tmp = root.find(f'.//{cl}').text
-                if tmp:
+                try:
                     c_dict[cl] = root.find(f'.//{cl}').text
-                else:
+                except:
                     c_dict[cl] = ""
         
         datas.append(c_dict)

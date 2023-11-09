@@ -6,7 +6,7 @@ class AREA_INFO(models.Model):
     AREA_NM = models.CharField(max_length = 255)
     AREA_CONGEST_LVL = models.CharField(max_length = 100)
     SKY_STTS = models.CharField(max_length = 100, default='정보없음') # 프론트 설계 화면에 '맑음', '흐림'등이 있어 새 필드를 추가했습니다.
-    TEMP = models.FloatField()
+    TEMP = models.CharField(max_length=50)
     PM10 = models.CharField(max_length = 50)
     PM25 = models.CharField(max_length = 50)
     CATEGORY = models.CharField(max_length = 50, default='분류오류')  # 카테고리 필드 추가
@@ -18,6 +18,9 @@ class AREA_INFO(models.Model):
         return image_path
 
     def select_category(self):
+        if self.AREA_CD == '':
+            return '분류오류'
+        
         if int(self.AREA_CD[-3:]) >= 1 and int(self.AREA_CD[-3:]) <= 7:
             return '관광특구'
         
