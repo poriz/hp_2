@@ -34,7 +34,7 @@ def index(request):
     return render(request,'main/index.html',context)
 
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
-@sched.scheduled_job('cron', second ='*/10',name = 'schedulerName')
+@sched.scheduled_job('cron', minute ='*/30',name = 'schedulerName')
 def data_to_db():
     current_time = timezone.now() # 타임 스탬프
     print(f'cron start : {current_time}')
