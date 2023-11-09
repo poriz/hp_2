@@ -11,7 +11,8 @@ class AREA_INFO(models.Model):
     PM25 = models.CharField(max_length = 50)
     CATEGORY = models.CharField(max_length = 50, default='분류오류')  # 카테고리 필드 추가
     IMAGE = models.CharField(max_length=100)
-    
+    TIMESTAMP = models.DateTimeField(null=True,blank=True)
+
     def set_image(self):
         image_path = f'Image/{self.AREA_NM}.jpg'
         return image_path
@@ -40,7 +41,7 @@ class AREA_INFO(models.Model):
         super(AREA_INFO, self).save(*args, **kwargs)  # 부모 클래스의 save 메서드 호출
     
     def __str__(self):
-        return f'{self.AREA_NM}, {self.CATEGORY}, {self.AREA_CONGEST_LVL}, {self.SKY_STTS}, {self.TEMP}, {self.PM10}, {self.PM25}'
+        return f'{self.AREA_NM}, {self.CATEGORY}, {self.AREA_CONGEST_LVL}, {self.SKY_STTS}, {self.TEMP}, {self.PM10}, {self.PM25}, {self.TIMESTAMP}'
 
 class COMMENT(models.Model):
     NICKNAME = models.CharField(max_length=30)

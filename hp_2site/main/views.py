@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404,redirect
 from django.http import HttpResponse
 from django.urls import reverse
+from django.utils import timezone
 from django.db.models import Q
 from .models import *
 
@@ -35,14 +36,15 @@ def index(request):
 # API에서 최신 데이터 가져오기 (서울시 OpenAPI 서버상태에 따라 최장 시간 4~5분 소요)
 @sched.scheduled_job('cron', minute ='*/5',name = 'schedulerName')
 def data_to_db():
-    print('cron start')
+    current_time = timezone.now()
+    print(f'cron start : {current_time}')
     currentPath = os.getcwd()
     # 이부분 DB에서 가져오는 방식도 좋습니다. pandas 에러로 파일 위치변경
     data = pd.read_csv(f'{currentPath}\\main\\place_name.CSV',encoding='utf-8')
     place_list = data['AREA_NM'].to_list()
     
     datas = list()
-    columns = ['AREA_CD', 'AREA_NM', 'AREA_CONGEST_LVL', 'SKY_STTS', 'TEMP', 'PM10', 'PM25']
+    columns = ['AREA_CD', 'AREA_NM', 'AREA_CONGEST_LVL', 'SKY_STTS', 'TEMP', 'PM10', 'PM25','TIMESTAMP']
     for place in place_list:
         url1 = f'http://openapi.seoul.go.kr:8088/{APIKEY}/xml/citydata/1/1/{place}'
         
@@ -55,11 +57,14 @@ def data_to_db():
         
         c_dict = dict()
         for cl in columns:
-            tmp = root.find(f'.//{cl}').text
-            if tmp:
-                c_dict[cl] = root.find(f'.//{cl}').text
+            if cl == 'TIMESTAMP':
+                c_dict[cl] = current_time
             else:
-                c_dict[cl] = ""
+                tmp = root.find(f'.//{cl}').text
+                if tmp:
+                    c_dict[cl] = root.find(f'.//{cl}').text
+                else:
+                    c_dict[cl] = ""
         
         datas.append(c_dict)
     
