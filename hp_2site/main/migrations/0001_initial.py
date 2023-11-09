@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('TEMP', models.FloatField()),
                 ('PM10', models.FloatField()),
                 ('PM25', models.FloatField()),
-                ('CATEGORY', models.CharField(default='분류오류', max_length=50)),
+                # ('CATEGORY', models.CharField(default='분류오류', max_length=50)),
             ],
         ),
     ]
