@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP2</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div style="width: 1000px; margin: auto;">
+    <h1 style="text-align: center;">Hot Place List</h1>
+    <div class="main-container">
+        <div class="section-container">
+            <h2>복작복작 와글와글</h2>
+            {% for area in CROWDED %}
+                <div class="place-container">
+                    {% comment %} <div class="photo">사진</div> {% endcomment %}
+                    <div class="photo">
+                        <img class='photo' src="{% static 'Image/'|add:area.AREA_NM|add:'.jpg' %}" alt="{{ area.AREA_NM }}">
+                    </div>
+                    <div class="place-info">
+                        <div class="place-name">{{ area.AREA_NM }}</div>
+                        <div class="detail-container">
+                            <div style="flex:1">{{ area.SKY_STTS }}</div>
+                            <div style="flex:1">{{ area.TEMP }}</div>
+                            <div class="fine-dust" style="flex:1">
+                                <p style="margin: 0px;">{{ area.PM10 }}</p>
+                                <p style="margin: 0px; font-size: 12px;">미세먼지</p>
+                            </div>
+                            <div class="ultrafine dustr" style="flex:1">
+                                <p style="margin: 0px;">{{ area.PM25 }}</p>
+                                <p style="margin: 0px; font-size: 12px;">초미세먼지</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="section-container">
+            <h2>한적~</h2>
+            {% for area in UNCROWDED %}
+                <div class="place-container">
+                    <img class='photo' src="{% static 'Image/'|add:area.AREA_NM|add:'.jpg' %}" alt="{{ area.AREA_NM }}">
+                    <div class="place-info">
+                        <div class="place-name">{{ area.AREA_NM }}</div>
+                        <div class="detail-container">
+                            <div style="flex:1">{{ area.SKY_STTS }}</div>
+                            <div style="flex:1">{{ area.TEMP }}</div>
+                            <div class="fine-dust" style="flex:1">
+                                <p style="margin: 0px;">{{ area.PM10 }}</p>
+                                <p style="margin: 0px; font-size: 12px;">미세먼지</p>
+                            </div>
+                            <div class="ultrafine dustr" style="flex:1">
+                                <p style="margin: 0px;">{{ area.PM25 }}</p>
+                                <p style="margin: 0px; font-size: 12px;">초미세먼지</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="comment-container">
+        <form action="{% url 'main:comment' %}" method='post' style="display: flex; flex-direction: row; width: 600px;">
+            {% csrf_token %}
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div>
+                    <label for="nickname">닉네임 :</label>
+                    <input id="nickname" name="nickname" placeholder="10자 제한" maxlength='10'/>
+                </div>
+                <div>
+                    <label for="comment">댓글 :</label>
+                    <input id="comment" name="comment" type="text" placeholder="150자 제한" maxlength='150' required>
+                </div>
+            </div>
+            <button style="margin-left: 10px;">제출</button>
+        </form>
+        <div  class="comment-list">
+            {% for comment in COMMENT %}
+                <div class="comment-box">
+                    <p class="comment-content">{{ comment.COMMENT_TEXT }}</p>
+                    <p class="comment-nick">{{ comment.NICKNAME }}</p>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
