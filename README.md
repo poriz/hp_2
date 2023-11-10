@@ -33,3 +33,6 @@
 2. model migration 에러
     - 이미 존재하는 테이블 변경 과정에서 initial 파일에 이미 있기 때문에 에러가 났음
     - initial 파일을 수정함으로써 해결
+  
+## 4.결과 web
+![Untitled](https://github.com/poriz/hp_2/assets/36216087/99d3f939-b4c1-4b1c-9b19-2d84ed128cb8)
